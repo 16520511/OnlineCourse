@@ -67,6 +67,11 @@ class Navbar extends Component {
             <ul class="sidenav" id="mobile-nav">
                 <li><a href="#" data-target="mobile-categories" class="sidenav-trigger"><i class="material-icons left">apps</i>Categories</a></li>
                 <li>{userNavbar}</li>
+                <li>
+                    <form>
+                        <input className='search-nav grey lighten-4' placeholder='Search for Courses' type='search' id='search'></input>
+                    </form>
+                </li>
                 <li className='login-sidenav'><Login mobile={true} history={this.props.history} userLoggedIn={this.userLoggedIn} /></li>
             </ul>
             <CategoryNav mobile={true}/>

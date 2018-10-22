@@ -5,7 +5,7 @@ export default class CategoryNav extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            categories: {}
+            categories: {},
         }
     }
 
@@ -64,9 +64,12 @@ export default class CategoryNav extends Component {
         }
 
         const categoryNav = this.props.mobile ? (
+            <div>
             <ul className="sidenav collapsible" id="mobile-categories">
                 {mobileParent}
             </ul>
+            
+            </div>
         ) : (
             <li className='categories-nav'><a><i class="material-icons left">apps</i>Categories
                 <div className="parent-categories-dropdown white">
