@@ -9,7 +9,7 @@ export default class CategoryNav extends Component {
         }
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
         await axios.get('/api/cat-tree')
         .then(res => {
             const categories = res.data;
@@ -17,13 +17,14 @@ export default class CategoryNav extends Component {
                 categories
             });
         });
-        console.log(this.state);
     }
 
     render() {
         let parent = [];
+        let mobileParent = [];
         for (let key in this.state.categories)
         {
+            //Code for desktop screen
             let childrenDropdown = this.state.categories[key].children.map(child => {
                 return (
                     <a className='teal-text' href={'/category/' + child.path}>{child.name}</a>
@@ -37,13 +38,47 @@ export default class CategoryNav extends Component {
                 </a>
             )
             parent.push(parentDropdown);
+
+            //Code for mobile screen
+            let keyTrim = key.replace(/ /g, '');
+
+            const mobileChildrenDropdown = this.state.categories[key].children.map(child => {
+                return (
+                    <li><a href={'/category/' + child.path}>{child.name}</a></li>
+                )
+            });
+            
+            let mobileChilrenItem = (
+                <ul id={'mobile-' + keyTrim}>
+                    {mobileChildrenDropdown}
+                </ul>
+            )
+
+            let mobileParentItem = (
+                <li>
+                    <div class="collapsible-header"><i class="material-icons left">keyboard_arrow_down</i>{key}</div>
+                    <div class="collapsible-body">{mobileChilrenItem}</div>
+                </li>
+            )
+            mobileParent.push(mobileParentItem);
         }
-        return (
+
+        const categoryNav = this.props.mobile ? (
+            <ul className="sidenav collapsible" id="mobile-categories">
+                {mobileParent}
+            </ul>
+        ) : (
             <li className='categories-nav'><a><i class="material-icons left">apps</i>Categories
                 <div className="parent-categories-dropdown white">
                     {parent}
                 </div></a>
             </li>
+        )
+
+        return (
+            <div>
+                {categoryNav}
+            </div>
         )
     }
 }

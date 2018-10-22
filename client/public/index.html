@@ -40,12 +40,9 @@
   </body>
   <script>
     $( document ).ready(() => {
-      $(".dropdown-trigger").dropdown();
-      $('.dropdown-submenu a.test').on("click", function(e){
-        $(this).next('ul').toggle();
         e.stopPropagation();
-        e.preventDefault();
-      });
-    })
+      $('.sidenav').sidenav();
+      $('.collapsible').collapsible();
+    });
   </script>
 </html>

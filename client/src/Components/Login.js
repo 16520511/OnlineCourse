@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import axios from 'axios'
 import {Modal} from 'react-materialize'
+import {Link} from 'react-router-dom'
 
 export default class Login extends Component {
     constructor(props) {
@@ -9,7 +10,7 @@ export default class Login extends Component {
             loggedIn: false,
             register: false,
             err: '',
-            username: ''
+            username: '',
         }
     }
 
@@ -43,10 +44,11 @@ export default class Login extends Component {
             {
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem('username', res.data.username);
-                window.location.reload();
                 this.setState({
-                    loggedIn: true
+                    loggedIn: true,
+                    open: false
                 });
+                window.location.reload();
                 this.props.userLoggedIn(true, res.data.firstName);
             }
             else {
@@ -65,10 +67,11 @@ export default class Login extends Component {
     userLogOut = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('username');
-        window.location.reload();
         this.setState({
-            loggedIn: false
+            loggedIn: false,
+            open: false
         });
+        window.location.reload();
         this.props.userLoggedIn(false, '');
     }
 
@@ -142,8 +145,8 @@ export default class Login extends Component {
         if (this.state.register === false) {
             form = this.state.loggedIn ? (
                 <div>
-                    <p className='red-text'>It's sad to see you leave, {localStorage.getItem('username')}.</p>
-                    <button onClick = {this.userLogOut} className='btn red'>Click here to log out</button>
+                    <p className='teal-text'>It's sad to see you leave, {localStorage.getItem('username')}.</p>
+                    <button onClick = {this.userLogOut} className='btn red lighten-1'>Click here to log out</button>
                 </div>
             ) : (
                 <div className=''>
@@ -201,11 +204,24 @@ export default class Login extends Component {
                 </div>
             </div>);
         }
-        return (
+
+        const modal = this.props.mobile ? 
+        (
+            <Modal open={this.state.open}
+                trigger={<button className='btn red lighten-1'>{loggedIn}</button>}>
+                {form}
+            </Modal>
+        ) : 
+        (
             <Modal open={this.state.open}
                 trigger={<a>{loggedIn}</a>}>
                 {form}
             </Modal>
+        )
+        return (
+            <div>
+                {modal}
+            </div>
         );
     }
 }

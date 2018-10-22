@@ -14,7 +14,6 @@ class Category extends Component {
         this.setState({
             catPath: this.props.location.pathname.split('/category/')[1]
         });
-        console.log(this.props.location.pathname.split('/category/')[1]);
     }
 
     makeTextCapitalize = (text) => {

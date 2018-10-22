@@ -39,26 +39,37 @@ class Navbar extends Component {
     }
 
     render() {
-        const userNavbar = this.state.userLoggedIn ? (<li className='right'><Link to='#'><i class="material-icons left">person</i>Hi, {this.state.firstName}</Link></li>) : '';
-        const cart = this.state.userLoggedIn ? (<li className='right'><Link to='/cart'><i class="material-icons left">shopping_cart</i>Cart</Link></li>) : '';
+        const userNavbar = this.state.userLoggedIn ? (<Link to='#'><i class="material-icons left">person</i>Hi, {this.state.firstName}</Link>) : '';
+        const cart = this.state.userLoggedIn ? (<Link to='/cart'><i class="material-icons left">shopping_cart</i>Cart</Link>) : '';
         return (
             <div className='navbar'>
             <nav>
                 <div className="nav-wrapper blue-grey">
-                    <Link to="/" className="brand-logo">Online Course</Link>
+                    <Link to="/" className="brand-logo">Online Courses</Link>
+                    <a data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                     <ul id="nav-mobile" className="hide-on-med-and-down">
                         <CategoryNav />
                         <li className='right'><Login history={this.props.history} userLoggedIn={this.userLoggedIn} /></li>
-                        {userNavbar}
-                        {cart}
+                        <li className='right'>{userNavbar}</li>
                         <li>
                             <form>
                                 <input className='search-nav grey lighten-4' placeholder='Search for Courses' type='search' id='search'></input>
                             </form>
                         </li>
                     </ul>
+                    <ul>
+                        <li className='right'>{cart}</li>
+                    </ul>
                 </div>
             </nav>
+
+            {/* Code for sidenav */}
+            <ul class="sidenav" id="mobile-nav">
+                <li><a href="#" data-target="mobile-categories" class="sidenav-trigger"><i class="material-icons left">apps</i>Categories</a></li>
+                <li>{userNavbar}</li>
+                <li className='login-sidenav'><Login mobile={true} history={this.props.history} userLoggedIn={this.userLoggedIn} /></li>
+            </ul>
+            <CategoryNav mobile={true}/>
             </div>
         )
     }

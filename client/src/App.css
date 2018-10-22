@@ -9,8 +9,7 @@ body {
 }
 
 .brand-logo {
-    margin-left: 10px;
-    margin-right: 10px;
+    margin: auto 10px;
 }
 
 .modal-close:hover {
@@ -472,5 +471,27 @@ body {
     }
     .checkout {
         grid-column: 1;
+    }
+    .login-sidenav {
+        text-align: center;
+    }
+    .login-sidenav .btn {
+        width: 80% !important;
+        border-radius: 0px;
+    }
+
+    .login-sidenav a {
+        color: white; 
+        font-size: 14px;
+        font-weight: 500;
+    }
+    nav .brand-logo {
+        font-size: 1.65rem !important;
+        margin: 0 !important;
+    }
+
+    .collapsible-header {
+        font-size: 14px;
+        font-weight: 500;
     }
 }
