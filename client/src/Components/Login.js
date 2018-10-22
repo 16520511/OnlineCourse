@@ -205,14 +205,12 @@ export default class Login extends Component {
             </div>);
         }
 
-        const modal = this.props.mobile ? 
-        (
+        const modal = this.props.mobile ? (
             <Modal open={this.state.open}
                 trigger={<button className='btn red lighten-1'>{loggedIn}</button>}>
                 {form}
             </Modal>
-        ) : 
-        (
+        ) : (
             <Modal open={this.state.open}
                 trigger={<a>{loggedIn}</a>}>
                 {form}

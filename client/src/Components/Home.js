@@ -2,6 +2,15 @@ import React, {Component} from 'react'
 import CoursesIndex from './CoursesIndex'
 
 class Home extends Component {
+    search = (e) => {
+        e.preventDefault();
+        const keyword = e.target.children[0].value;
+        this.props.history.push({
+            pathname: '/search',
+            search: '?query=' + keyword
+          });
+    }
+
     render() {
         return (
             <div className='homepage'>
@@ -9,7 +18,7 @@ class Home extends Component {
                     <div className='banner-text white-text'>
                         <h2>Welcome to Online Courses</h2>
                         <h5>Study online anywhere, anytime with highly experienced expert around the world.</h5>
-                        <form>
+                        <form onSubmit={this.search}>
                             <input className='banner-searchbar grey lighten-4' placeholder='What do you want to study?' type='search' id='search'></input>
                         </form>
                     </div>

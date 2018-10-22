@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const checkAuth = require('../middleware/checkauth.js');
 const { check, validationResult } = require('express-validator/check');
 const slugify = require('slugify');
+const search = require('../search_engine');
 
 //Models
 const User = require('../models/user');
@@ -402,4 +403,18 @@ api.get('/lessons', (req, res) => {
     .then(lessons => res.send(lessons));
 })
 
+api.post('/search', async (req, res) => {
+    const courses = await search.SimpleSearch(req.body.keyword);
+    var len = courses.length;
+    for (var i = len-1; i>=0; i--){
+        for(var j = 1; j<=i; j++){
+          if(courses[j-1].relevant<courses[j].relevant){
+              var temp = courses[j-1];
+              courses[j-1] = courses[j];
+              courses[j] = temp;
+           }
+        }
+    }
+    res.send(courses);
+})
 module.exports = api;

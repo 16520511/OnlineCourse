@@ -8,6 +8,7 @@ import Course from './Components/Course'
 import Lesson from './Components/Lesson'
 import Cart from './Components/Cart'
 import CategoryNav from './Components/CategoryNav'
+import Search from './Components/Search'
 
 
 class App extends Component {
@@ -20,6 +21,7 @@ class App extends Component {
                 <Switch>
                   <Route exact path='/' component={Home} />
                   <Route exact path='/cart' component={Cart} />
+                  <Route path='/search' component={Search} />
                   <Route path='/category/:cat' component={Category} />
                   <Route path='/test' component={CategoryNav} />
                   <Route path='/:course/lesson/:lesson' component={Lesson} />

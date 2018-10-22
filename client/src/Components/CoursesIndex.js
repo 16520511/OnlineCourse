@@ -15,8 +15,8 @@ export default class CoursesIndex extends Component {
     }
     
     //Make axios request for the courses.
-    makeAxiosRequest = async (path, body, page) => {
-        if (body === undefined)
+    makeAxiosRequest = async (path, body, page, keyword) => {
+        if (body === undefined && keyword === undefined)
         {
             await axios.get(path)
             .then(res => {
@@ -31,6 +31,20 @@ export default class CoursesIndex extends Component {
                 });
             });
         }
+        else if (body === undefined && keyword !== undefined)
+            axios.post('/api/search', {keyword})
+            .then(res => {
+                const courses = res.data.map(course => {
+                    course.ctaDisplay = 'none';
+                    return course;
+                });
+                this.setState({
+                    
+                    courses: courses.slice((page-1)*10, page*10),
+                    totalCourses: courses.length,
+                    currentPage: page
+                });
+            });
         else {
             await axios.post(path, {path: body})
             .then(res => {
@@ -47,10 +61,11 @@ export default class CoursesIndex extends Component {
         }
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
         const path = this.props.path;
         const body = this.props.body;
-        await this.makeAxiosRequest(path, body, 1);
+        const keyword = this.props.keyword;
+        await this.makeAxiosRequest(path, body, 1, keyword);
     }
 
     //When user hover the mouse over a course, show call to action button.
@@ -71,7 +86,6 @@ export default class CoursesIndex extends Component {
             const path = this.props.path;
             const body = this.props.body;
             await this.makeAxiosRequest(path, body, page);
-            console.log(this.state.currentPage);
         }
     }
 

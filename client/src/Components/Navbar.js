@@ -22,7 +22,6 @@ class Navbar extends Component {
                 'Authorization': 'Bearer ' + token
             }
         }).then(res => {
-            console.log(res.data);
             if (res.data.message === 'hey you made it')
                 this.setState({
                     userLoggedIn: true,
@@ -36,6 +35,17 @@ class Navbar extends Component {
             userLoggedIn: bool,
             firstName: firstName
         });
+    }
+
+    search = (e) => {
+        e.preventDefault();
+        const keyword = e.target.children[0].value;
+        if(window.location.pathname === '/search')
+            this.props.history.go(0);
+        this.props.history.push({
+            pathname: '/search',
+            search: '?query=' + keyword
+          });
     }
 
     render() {
@@ -52,7 +62,7 @@ class Navbar extends Component {
                         <li className='right'><Login history={this.props.history} userLoggedIn={this.userLoggedIn} /></li>
                         <li className='right'>{userNavbar}</li>
                         <li>
-                            <form>
+                            <form onSubmit={this.search}>
                                 <input className='search-nav grey lighten-4' placeholder='Search for Courses' type='search' id='search'></input>
                             </form>
                         </li>
@@ -68,7 +78,7 @@ class Navbar extends Component {
                 <li><a href="#" data-target="mobile-categories" class="sidenav-trigger"><i class="material-icons left">apps</i>Categories</a></li>
                 <li>{userNavbar}</li>
                 <li>
-                    <form>
+                    <form onSubmit={this.search}>
                         <input className='search-nav grey lighten-4' placeholder='Search for Courses' type='search' id='search'></input>
                     </form>
                 </li>
