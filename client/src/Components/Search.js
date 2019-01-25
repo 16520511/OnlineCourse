@@ -7,7 +7,6 @@ export default class Search extends Component {
         super(props);
         this.state = {
             keyword: '',
-            courses: []
         }
     }
 

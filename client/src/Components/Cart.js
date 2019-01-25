@@ -87,7 +87,7 @@ export default class Cart extends Component {
                 <Paypal price={totalPrice} checkoutSuccessful={this.checkoutSuccessful}/>
             </div>)
 
-        let removeAll = itemsInCart.length === 0 ? '' : <p className='teal-text remove-all-cart' onClick={() => {this.removeItem('', true)}}>Remove All</p>;
+        let removeAll = itemsInCart.length === 0 ? '' : <a className='teal-text remove-all-cart' onClick={() => {this.removeItem('', true)}}>Remove All</a>;
         return(
             <div>
                 <div className='cart'>

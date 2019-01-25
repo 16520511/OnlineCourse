@@ -14,7 +14,8 @@ export default class Courses extends Component {
             lessons: [],
             userRolledIn: false,
             catPath: '/category',
-            message: ''
+            message: '',
+            instructorExpand: false
         };
     }
 
@@ -80,11 +81,17 @@ export default class Courses extends Component {
             })
     }
 
+    instructorExpand = () => {
+        this.setState({
+            instructorExpand: !this.state.instructorExpand
+        });
+    }
+
     render() {
         const course = this.state.course.map(course => {
             const lessons = this.state.lessons.map(lesson => {
                 const preview = lesson.preview ? 'Preview' : ''
-                return (<Link to={course.slug + '/lesson/' + lesson.slug} className="collection-item">{lesson.title}<i className="material-icons right">bookmark</i><span className='right red-text'>{preview}</span></Link>)
+                return (<Link to={course.slug + 'lesson/' + lesson.slug} className="collection-item">{lesson.title}<i className="material-icons right">bookmark</i><span className='right red-text'>{preview}</span></Link>)
             });
             let courseRating = 0;
             if (course.ratings.length !== 0)
@@ -93,9 +100,21 @@ export default class Courses extends Component {
                     courseRating += course.ratings[i];
                 courseRating /= course.ratings.length;
             }
+
             const ctaButtons = !this.state.userRolledIn ? (<span><button className='red waves-effect waves-light btn-large course-enroll-btn'>Enroll in this course</button>
             <button onClick={this.addToCart} className='teal waves-effect waves-light btn-large add-to-cart-btn'>Add To Cart</button></span>) :
             (<button className='teal waves-effect waves-light btn-large add-to-cart-btn disabled'>You have purchased this course.</button>);
+            
+            const hiddenInstructorExpand = this.state.instructorExpand ? course.instructor.aboutMe.slice(297) : '...';
+
+            const instructorExpand = course.instructor.aboutMe.length < 300 ? <p>{course.instructor.aboutMe}</p> : (
+                <p>{course.instructor.aboutMe.slice(0,297)}<span>{hiddenInstructorExpand}</span></p>
+            )
+
+            const readMoreInstructor = course.instructor.aboutMe.length < 300 ? '' : (
+                <p onClick={this.instructorExpand} className='read-more-instructor green-text lighten-2'>{this.state.instructorExpand? 'READ LESS' : 'READ MORE'}</p>
+            ) 
+
             return (
                 <div className='course'>
                     <div className='course-header grey darken-3'>
@@ -134,10 +153,11 @@ export default class Courses extends Component {
                                 <div className="card-stacked">
                                     <div className="card-content">
                                         <h6 className='course-instructor-info-header blue-text'>{course.instructor.firstName + ' ' + course.instructor.lastName}</h6>
-                                        <p>{course.instructor.aboutMe}</p>
+                                        {instructorExpand}
+                                        {readMoreInstructor}
                                     </div>
                                     <div className="card-action">
-                                    <a href="#">This is a link</a>
+                                    <a href="#">Instructor's profile</a>
                                     </div>
                                 </div>
                                 </div>

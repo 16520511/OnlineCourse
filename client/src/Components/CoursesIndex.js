@@ -8,15 +8,36 @@ export default class CoursesIndex extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            courses: [],
+            courses: undefined,
             totalCourses: 0,
             currentPage: 1
         };
     }
     
     //Make axios request for the courses.
-    makeAxiosRequest = async (path, body, page, keyword) => {
-        if (body === undefined && keyword === undefined)
+    makeAxiosRequest = async (path, body, page, keyword, myPost) => {
+        if (myPost === true) {
+            const token = localStorage.getItem('token');
+            const username = localStorage.getItem('username');
+            await axios.post('/api/my-course', {username: username}, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                }
+            }).then(res => {
+                const courses = res.data.map(course => {
+                    course.ctaDisplay = 'none';
+                    return course;
+                });
+                if (res.data.message !== 'unauthorized')
+                    this.setState({
+                        courses: courses.slice((page-1)*10, page*10),
+                        totalCourses: courses.length,
+                        currentPage: page
+                    });
+            });
+        }
+        else if (body === undefined && keyword === undefined)
         {
             await axios.get(path)
             .then(res => {
@@ -38,8 +59,7 @@ export default class CoursesIndex extends Component {
                     course.ctaDisplay = 'none';
                     return course;
                 });
-                this.setState({
-                    
+                this.setState({        
                     courses: courses.slice((page-1)*10, page*10),
                     totalCourses: courses.length,
                     currentPage: page
@@ -65,7 +85,8 @@ export default class CoursesIndex extends Component {
         const path = this.props.path;
         const body = this.props.body;
         const keyword = this.props.keyword;
-        await this.makeAxiosRequest(path, body, 1, keyword);
+        const myPost = this.props.myPost;
+        await this.makeAxiosRequest(path, body, 1, keyword, myPost);
     }
 
     //When user hover the mouse over a course, show call to action button.
@@ -85,7 +106,9 @@ export default class CoursesIndex extends Component {
         {
             const path = this.props.path;
             const body = this.props.body;
-            await this.makeAxiosRequest(path, body, page);
+            const keyword = this.props.keyword;
+            const myPost = this.props.myPost;
+            await this.makeAxiosRequest(path, body, page, keyword, myPost);
         }
     }
 
@@ -117,7 +140,7 @@ export default class CoursesIndex extends Component {
 
     render() {
         //Show courses
-        const coursesGrid = this.state.courses.map(course => {
+        const coursesGrid = this.state.courses !== undefined ? this.state.courses.map(course => {
             let courseRating = 0;
             if (course.ratings.length !== 0)
             {
@@ -125,7 +148,9 @@ export default class CoursesIndex extends Component {
                     courseRating += course.ratings[i];
                 courseRating /= course.ratings.length;
             }
-
+            const CTAbutton = this.props.hideCTA === true ? '' : (
+                <button onClick={(e) => {this.CTAClick(e, course._id)}} style={{display: `${course.ctaDisplay}`}} className='btn course-index-cta'>Add To Cart</button>
+            )
             const title = course.title.length > 45 ? (course.title.slice(0, 47) + '...') : course.title;
             return (
                 <div className='course-index-card' onMouseEnter={() => this.showCTA(course._id, 'enter')} onMouseLeave={() => {this.showCTA(course._id, 'leave')}}>
@@ -147,14 +172,14 @@ export default class CoursesIndex extends Component {
                                 starSpacing="1px"
                             />
                             <span className='course-number-of-ratings'> ({course.ratings.length} ratings)</span>
-                        <button onClick={(e) => {this.CTAClick(e, course._id)}} style={{display: `${course.ctaDisplay}`}} className='btn course-index-cta'>Add To Cart</button>
+                        {CTAbutton}
                     </div>
                     <div className='card-footer'></div></a>
                 </div>
             );
-        });
+        }) : '';
 
-        const coursesIndex = this.state.courses.length === 0 ? 
+        const coursesIndex = this.state.courses === undefined ? 
         (<div class="preloader-wrapper big active">
             <div class="spinner-layer spinner-teal-only">
             <div class="circle-clipper left">

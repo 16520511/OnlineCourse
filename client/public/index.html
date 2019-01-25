@@ -21,8 +21,11 @@
     -->
     <title>Online Course</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- <link rel="stylesheet" href='./materializemin.css'> -->
+    <!-- <script src='./jquery-3.3.1.min.js'></script> -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- <script src="./materializemin.js"></script> -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </head>
   <body>
@@ -44,4 +47,31 @@
       $('.collapsible').collapsible();
     });
   </script>
+  <script type="text/javascript">// <![CDATA[
+    function submit_form() {
+        if (typeof(validateCaptchaAndSubmit) != 'undefined') {
+            validateCaptchaAndSubmit();
+        } else {
+            check_webtolead_fields();
+            //document.WebToLeadForm.submit();
+        }
+    }
+
+    function check_webtolead_fields() {
+        if (document.getElementById('bool_id') != null) {
+            var reqs = document.getElementById('bool_id').value;
+            bools = reqs.substring(0, reqs.lastIndexOf(';'));
+            var bool_fields = new Array();
+            var bool_fields = bools.split(';');
+            nbr_fields = bool_fields.length;
+            for (var i = 0; i < nbr_fields; i++) {
+                if (document.getElementById(bool_fields[i]).value == 'on') {
+                    document.getElementById(bool_fields[i]).value = 1;
+                } else {
+                    document.getElementById(bool_fields[i]).value = 0;
+                }
+            }
+        }
+    }
+// ]]></script>
 </html>

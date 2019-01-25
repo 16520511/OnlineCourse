@@ -128,6 +128,14 @@ api.post('/course', (req, res) => {
     .catch(err => res.send(err));
 });
 
+api.post('/my-course', checkAuth, (req, res) => {
+    User.findOne({username: req.username}).exec()
+    .then(user => {
+       Course.find({_id: {$in: user.courses}}).populate('instructor').exec()
+       .then(courses => res.send(courses));
+    }).catch(err => res.send({message: 'unauthorized'}));
+})
+
 api.get('/createcourse', (req, res) => {
     Course.create({
         title: 'The Complete Networking Fundamentals Course. Your CCNA start',
@@ -391,11 +399,21 @@ api.post('/cart-checkout', checkAuth, (req, res) => {
 });
 
 api.get('/updateuser', (req, res) => {
-    User.findByIdAndUpdate('5bcbe632a990f1150c9f0140', {aboutMe: `A highly skilled professional, Brad Hussey is a passionate and experienced freelancing web designer, developer, blogger and digital entrepreneur. Hailing from North Of The Wall (Yellowknife, Canada), Brad made the trek to the Wet Coast (Vancouver, Canada) to educate and equip himself with the necessary skills to become a spearhead in his trade of solving problems on the web, crafting design solutions, and speaking in code.
+    User.findByIdAndUpdate('5bcbedf800a8cd295481911c', {aboutMe: `Sharing is who I am, and teaching is where I am at my best, because I've been on both sides of that equation, and getting to deliver useful training is my meaningful way to be a part of the creative community.
 
-    Brad's determination and love for what he does has landed him in some pretty interesting places with some neat people. He's had the privilege of working with, and providing solutions for, numerous businesses, big & small, across the Americas.
+    I've spent a long time watching others learn, and teach, to refine how I work with you to be efficient, useful and, most importantly, memorable. I want you to carry what I've shown you into a bright future.
     
-    Brad builds custom websites, and provides design solutions for a wide-array of clientele at his company, Brightside Studios. He regularly blogs about passive income, living your life to the fullest, and provides premium quality web design tutorials and courses for tens of thousands of amazing people desiring to master the craft.`}, (err, raw) => {});
+    I have a wife (a lovely Irish girl) and kids. I have lived and worked in many places (as Kiwis tend to do) – but most of my 14+ years of creating and teaching has had one overriding theme: bringing others along for the ride as we all try to change the world with our stories, our labours of love and our art.
+    
+    I'm a certified Adobe instructor (ACI) in Ireland. I'm also an Adobe Certified Expert (ACE) and have completed the Adobe Certified Associate training (ACA). And I don't just do Adobe. Remember, media is a very broad term – digital blew out the borders, so we are all constantly learning.
+    
+    I've been teaching for 14+ years. I come from being a media designer and content creator – so I understand exactly where you're at now. I've been there. I love this stuff. Print, digital publishing, web and video. I can see how it all connects. And I can see how we can share those connections.
+    
+    I built Bring Your Own Laptop in Ireland, New Zealand, Australia & online. I have a great team working with me to keep BYOL at the top of Adobe and digital media training. I understand business, I have one – so I know how important it is to get it right and make it work for you.
+    
+    Now my focus is on Udemy. It's my mission to bring you the best training for digital media on Udemy.
+    
+    Daniel Walter Scott`}, (err, raw) => {});
 });
 
 api.get('/lessons', (req, res) => {

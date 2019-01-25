@@ -9,7 +9,7 @@ import Lesson from './Components/Lesson'
 import Cart from './Components/Cart'
 import CategoryNav from './Components/CategoryNav'
 import Search from './Components/Search'
-
+import MyCourse from './Components/MyCourse'
 
 class App extends Component {
   render() {
@@ -21,6 +21,7 @@ class App extends Component {
                 <Switch>
                   <Route exact path='/' component={Home} />
                   <Route exact path='/cart' component={Cart} />
+                  <Route exact path='/my-course' component={MyCourse} />
                   <Route path='/search' component={Search} />
                   <Route path='/category/:cat' component={Category} />
                   <Route path='/test' component={CategoryNav} />

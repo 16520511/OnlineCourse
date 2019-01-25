@@ -3,6 +3,7 @@ import {Link, withRouter} from 'react-router-dom'
 import Login from './Login'
 import axios from 'axios'
 import CategoryNav from './CategoryNav'
+import LeadForm from './LeadForm'
 
 class Navbar extends Component {
     constructor(props) {
@@ -49,8 +50,9 @@ class Navbar extends Component {
     }
 
     render() {
-        const userNavbar = this.state.userLoggedIn ? (<Link to='#'><i class="material-icons left">person</i>Hi, {this.state.firstName}</Link>) : '';
-        const cart = this.state.userLoggedIn ? (<Link to='/cart'><i class="material-icons left">shopping_cart</i>Cart</Link>) : '';
+        const userNavbar = this.state.userLoggedIn ? (<a href='#'><i class="material-icons left">person</i>Hi, {this.state.firstName}</a>) : '';
+        const cart = this.state.userLoggedIn ? (<a href='/cart'><i class="material-icons left">shopping_cart</i>Cart</a>) : '';
+        const myCourse = this.state.userLoggedIn ? (<a href='/my-course'><i class="material-icons left">school</i>My Courses</a>) : '';
         return (
             <div className='navbar'>
             <nav>
@@ -61,11 +63,13 @@ class Navbar extends Component {
                         <CategoryNav />
                         <li className='right'><Login history={this.props.history} userLoggedIn={this.userLoggedIn} /></li>
                         <li className='right'>{userNavbar}</li>
+                        <li className='right'>{myCourse}</li>
                         <li>
                             <form onSubmit={this.search}>
                                 <input className='search-nav grey lighten-4' placeholder='Search for Courses' type='search' id='search'></input>
                             </form>
                         </li>
+                        <li className='right'><LeadForm/></li>
                     </ul>
                     <ul>
                         <li className='right'>{cart}</li>
@@ -77,6 +81,7 @@ class Navbar extends Component {
             <ul class="sidenav" id="mobile-nav">
                 <li><a href="#" data-target="mobile-categories" class="sidenav-trigger"><i class="material-icons left">apps</i>Categories</a></li>
                 <li>{userNavbar}</li>
+                <li>{myCourse}</li>
                 <li>
                     <form onSubmit={this.search}>
                         <input className='search-nav grey lighten-4' placeholder='Search for Courses' type='search' id='search'></input>

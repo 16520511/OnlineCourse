@@ -38,9 +38,9 @@ body {
         font-family: Georgia, 'Times New Roman', Times, serif;
         position: absolute;
         z-index: 3;
-        top: 10%;
+        top: 15%;
         left: 5%;
-        width: 38%;
+        width: 35%;
     }
 
 .banner-searchbar {
@@ -48,6 +48,7 @@ body {
     border-bottom: none!important;
     box-shadow: none!important;
     border-radius: 2px !important;
+    width: 85% !important;
 }
 
     .banner-searchbar:focus {
@@ -62,6 +63,7 @@ body {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-gap: 2%;
+    margin: 25px auto;
 }
 
 .course-index-card {
@@ -162,6 +164,13 @@ body {
 
 .course-instructor {
     font-size: 1.15rem;  
+}
+
+.read-more-instructor {
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 10px !important;
+    margin-bottom: 0 !important;
 }
 
 .course-picture {
