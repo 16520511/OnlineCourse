@@ -1,15 +1,29 @@
 body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
     padding: 0 !important;
+    background-color: #f1f8f7;
+}
+
+main {
+    flex: 1 0 auto;
+    
+}
+
+.main-color {
+    color: #26a69a;
 }
 
 .modal form {
-    width: 60%;
+    width: 85%;
     margin-left: auto;
     margin-right: auto;
 }
 
 .brand-logo {
-    margin: auto 10px;
+    width: 20rem !important;
+    cursor: pointer;
 }
 
 .modal-close:hover {
@@ -45,10 +59,11 @@ body {
 
 .banner-searchbar {
     padding: 0 10px !important;
-    border-bottom: none!important;
+    border: none!important;
     box-shadow: none!important;
     border-radius: 2px !important;
     width: 85% !important;
+    margin: 0 !important;
 }
 
     .banner-searchbar:focus {
@@ -58,6 +73,7 @@ body {
     .banner-searchbar::placeholder {
         color: rgba(117, 117, 117, 0.8);
     }
+
 
 .course-index-grid {
     display: grid;
@@ -113,6 +129,10 @@ body {
     position: absolute;
     bottom: 5px;
     left: 5px;
+}
+
+.pagination li.active {
+    background-color: #607d8b !important;
 }
 
 .breadcrumb-nav {
@@ -256,12 +276,16 @@ body {
     margin: 15px auto;
 }
 
-.tabs .tab a {
+.lesson .tabs {
+    background-color: #f1f8f7;
+}
+
+.lesson .tabs .tab a {
     color: #f44336 !important;
     font-weight: 600;
 }
 
-.tabs .indicator {
+.lesson .tabs .indicator {
     background-color: #f44336 !important;
 }
 
@@ -289,9 +313,7 @@ body {
 .remove-all-cart {
     cursor: pointer;
 }
-.cart-items {
-    grid-column: 1;
-}
+
 .checkout {
     padding: 10px 0;
     grid-column: 2;
@@ -301,32 +323,29 @@ body {
 }
 .cart-item {
     display: grid;
-    grid-template-columns: 35% 60%;
+    grid-template-columns: 30% 60%;
     grid-gap: 5%;
     border: 1px solid #ccc;
-    margin: 20px auto;
+    margin: 20px 0;
     position: relative;
+    background-color: white;
 }
 
     .cart-item .close-btn {
         position: absolute;
-        top: 0;
-        right: 0;
+        bottom: 0;
+        right: 5px;
         z-index: 3;
         cursor: pointer;
-   
-    }
-    .cart-item .close-btn:hover {
-        color: red;
+        font-size: 1.1rem;
     }
 
-.cart-item-img {
-    grid-column: 1;
-}
-
-.cart-item-info {
-    grid-column: 2;
-}
+    .remove-all-cart {
+        font-size: 1.1rem;
+    }
+    .cart-item .close-btn:hover, .remove-all-cart:hover {
+        filter: brightness(80%);
+    }
 
 .cart-item-info p {
     font-size: 1.1rem;
@@ -336,7 +355,7 @@ body {
 .categories-nav {
     position: relative;
     cursor: pointer;
-    margin-left: 250px;
+    margin-left: 21rem;
     margin-right: 10px;
     z-index: 4;
 }
@@ -387,10 +406,68 @@ body {
     .search-nav:focus {
         background-color: white !important;
     }
+.nav-wrapper .popup-content {
+    line-height: 1.15rem;
+    padding: 0 !important;
+    z-index: 3 !important;
+}
 
-@media only screen and (max-device-width: 600px) {
+.nav-wrapper .popup-content a {
+    color: black !important;
+    font-size: 1.1rem;
+    padding: 10px;
+}
+
+.navbar-avatar {
+    width: 3em;
+    margin-top: 10px;
+    margin-right: 10px;
+    border-radius: 50%;
+    /* line-height: 0 !important; */
+    cursor: pointer;
+}
+
+.popup-overlay {
+    z-index: 2;
+}
+    
+.subscribeModal {
+    padding: 2em !important;
+    max-width: 25em;
+}
+
+#WebToLeadForm {
+    width: 100%;
+}
+
+#WebToLeadForm input[type=text], #WebToLeadForm input[type=email] {
+    border-bottom: 1px solid #ccc;
+}
+
+#WebToLeadForm .btn {
+    background-color: #26a69a !important;
+}
+
+.authModal {
+    max-height: 80% !important;
+    width: 35%;
+}
+
+.page-footer {
+    border-top: 1px solid #ccc;
+    background-color: inherit;
+    margin: 0 3em !important;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+@media only screen and (max-device-width: 750px) {
     .modal form {
         width: 100%;
+    }
+
+    .authModal {
+        max-height: 80% !important;
+        width: 90%;
     }
 
     .my-container {
@@ -402,6 +479,7 @@ body {
     }
 
     .course-index-grid {
+        display: inherit;
         grid-template-columns: auto;
     }
 
@@ -437,6 +515,10 @@ body {
         grid-column: 1;
     }
 
+    .page-footer {
+        display: none;
+    }
+
     .course-enroll-btn, .add-to-cart-btn {
         width: 100%;
         margin-bottom: 10px;
@@ -459,28 +541,11 @@ body {
         width: 100%;
         height: 100%;
     }
-    .cart-item {
-        grid-template-columns: auto;
-    }
     
-    .cart-item-img {
-        grid-column: 1;
-    }
-    
-    .cart-item-info {
-        grid-column: 1;
+    .cart-item, .cart {
+        display: inherit;
     }
 
-    .cart {
-        grid-template-columns: auto
-    }
-    
-    .cart-items {
-        grid-column: 1;
-    }
-    .checkout {
-        grid-column: 1;
-    }
     .login-sidenav {
         text-align: center;
     }

@@ -89,6 +89,19 @@ export default class CoursesIndex extends Component {
         await this.makeAxiosRequest(path, body, 1, keyword, myPost);
     }
 
+
+    //Component Update In Search Page
+    async componentDidUpdate(prevProps) {
+        if(this.props.keyword !== prevProps.keyword) {
+            this.setState({courses: undefined})
+            const path = this.props.path;
+            const body = this.props.body;
+            const keyword = this.props.keyword;
+            const myPost = this.props.myPost;
+            await this.makeAxiosRequest(path, body, 1, keyword, myPost);
+        }
+    }
+
     //When user hover the mouse over a course, show call to action button.
     showCTA = (id, action) => {
         const courses = this.state.courses.map(course => {

@@ -16,8 +16,8 @@ class Home extends Component {
             <div className='homepage'>
                 <div className='home-banner'>
                     <div className='banner-text white-text'>
-                        <h2>Welcome to Online Courses</h2>
-                        <h5>Study online anywhere, anytime with highly experienced expert around the world.</h5>
+                        <h2>Learn from the best</h2>
+                        <h5>Study online anywhere, anytime with highly experienced experts from around the world.</h5>
                         <form onSubmit={this.search}>
                             <input className='banner-searchbar grey lighten-4' placeholder='What do you want to study?' type='search' id='search'></input>
                         </form>

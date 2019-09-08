@@ -67,14 +67,13 @@ export default class Cart extends Component {
             totalPrice += item.price;
             return (
                 <div className='cart-item'>
-                    <i className="material-icons close-btn" onClick={() => {this.removeItem(item._id)}}>close</i>
+                    <a className="close-btn" onClick={() => {this.removeItem(item._id)}}>Remove</a>
                     <div className='cart-item-img'>
                         <img width='100%' src={'/' + item.image} alt={item.title} />
                     </div>
                     <div className='cart-item-info'>
                         <h5><Link to={item.slug}>{item.title}</Link></h5>
                         <p>Instructor: {item.instructor.firstName + ' ' + item.instructor.lastName}</p>
-                      
                     </div>
                 </div>)
         });
@@ -87,15 +86,17 @@ export default class Cart extends Component {
                 <Paypal price={totalPrice} checkoutSuccessful={this.checkoutSuccessful}/>
             </div>)
 
-        let removeAll = itemsInCart.length === 0 ? '' : <a className='teal-text remove-all-cart' onClick={() => {this.removeItem('', true)}}>Remove All</a>;
+        let removeAll = itemsInCart.length === 0 ? '' : <a className='remove-all-cart' onClick={() => {this.removeItem('', true)}}>Remove All</a>;
         return(
             <div>
                 <div className='cart'>
+                    <div className="">
                     <h4 className='teal-text'><i class="material-icons small left">shopping_cart</i>Shopping Cart</h4>
                     <div className='cart-items'>
                         {totalItems}
                         {removeAll}
                         {itemsInCart}
+                    </div>
                     </div>
                     {paypalCheckout}
                 </div>

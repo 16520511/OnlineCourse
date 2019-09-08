@@ -15,7 +15,7 @@ const Lesson = require('../models/lesson');
 const Cart = require('../models/cart');
 
 // mongoose.connect('mongodb://localhost/onlinecourse');
-mongoose.connect('mongodb://lokatto:gotohell8900@ds237713.mlab.com:37713/onlinecourses');
+mongoose.connect(`mongodb://${process.env.DATABASE_USERNAME}:${process.env.DATABASE_PASSWORD}@ds237713.mlab.com:37713/onlinecourses`, { useNewUrlParser: true });
 
 const api = express.Router();
 
@@ -257,11 +257,45 @@ api.post('/courselessons', (req, res) => {
 api.post('/lesson', (req, res) => {
     Lesson.findOne({slug: req.body.lessonSlug.toLowerCase()}).populate('course').exec()
     .then(lesson => {
+        Lesson.findOne({slug: req.body.lessonSlug.toLowerCase()}).populate('course').exec()
         if(lesson.course.slug === req.body.courseSlug)
             return res.send(lesson);
         return res.send('err');
     }).catch(err => res.send('err'));
 });
+
+// api.get('/add-slug-lesson', (req, res) => {
+//     Lesson.find({}, function(err, lessons) {
+//         if (!err){
+//             res.send(lessons);
+//             for (let i = 0; i < lessons.length; i++)
+//             {
+//                 let lesson = lessons[i]
+//                 console.log(lesson.number)
+//                 if (lesson.number !== 0)
+//                 {
+//                     console.log("yes")
+//                     Lesson.findOne({number: lesson.number-1, course: lesson.course}, (err, prev) => {
+//                         // console.log(prev == null);
+//                         if(!err && prev !== null)
+//                         Lesson.findOneAndUpdate({_id: lesson._id}, {prevLessonSlug: prev.slug}, (err, raw) => {});
+//                         else
+//                         Lesson.findOneAndUpdate({_id: lesson._id}, {prevLessonSlug: ''}, (err, raw) => {});
+//                     });
+//                 }
+//                 else if (lesson.number === 0)
+//                     Lesson.findOneAndUpdate({_id: lesson._id}, {prevLessonSlug: ''}, (err, raw) => {});
+//                 Lesson.findOne({number: lesson.number+1, course: lesson.course}, (err, next) => {
+//                     // console.log(next == null);
+//                     if(!err && next !== null)
+//                     Lesson.findOneAndUpdate({_id: lesson._id}, {nextLessonSlug: next.slug}, (err, raw) => {});
+//                     else
+//                     Lesson.findOneAndUpdate({_id: lesson._id}, {nextLessonSlug: ''}, (err, raw) => {});
+//                 });
+//             }
+//         } else {throw err;}
+//     });
+// })
 
 // api.get('/updateuser', (req, res) => {
 //     User.updateOne({username: 'hellobaby'}, {courses: ['5bbf383c88884621b4d1823e']}, (err, raw) => {res.send(err)});

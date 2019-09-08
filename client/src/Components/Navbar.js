@@ -4,13 +4,17 @@ import Login from './Login'
 import axios from 'axios'
 import CategoryNav from './CategoryNav'
 import LeadForm from './LeadForm'
+import logo from '../static/images/logo.png'
+import Popup from "reactjs-popup";
+import DefaultAvatar from '../static/images/default-avatar.jpg'
 
 class Navbar extends Component {
     constructor(props) {
         super(props);
         this.state = {
             userLoggedIn: false,
-            firstName: ''
+            firstName: '',
+            userAvatarOpen: false
         }
     }
     //Initial state of the navbar hello message
@@ -41,35 +45,48 @@ class Navbar extends Component {
     search = (e) => {
         e.preventDefault();
         const keyword = e.target.children[0].value;
-        if(window.location.pathname === '/search')
-            this.props.history.go(0);
-        this.props.history.push({
-            pathname: '/search',
-            search: '?query=' + keyword
-          });
+        this.props.history.push('/search?query=' + keyword);
+    }
+
+    openModal = () => {
+        this.setState({ userAvatarOpen: true });
+    }
+      closeModal = () => {
+        this.setState({ userAvatarOpen: false });
     }
 
     render() {
-        const userNavbar = this.state.userLoggedIn ? (<a href='#'><i class="material-icons left">person</i>Hi, {this.state.firstName}</a>) : '';
+        // const userNavbar = this.state.userLoggedIn ? (<a href='#'><i class="material-icons left">person</i>Hi, {this.state.firstName}</a>) : '';
+        const userLogIn = this.state.userLoggedIn ? '' : (<Login history={this.props.history} userLoggedIn={this.userLoggedIn} />)
+        const userAvatar = this.state.userLoggedIn ? (
+            <Popup open={this.state.userAvatarOpen}
+            trigger={<img className="navbar-avatar" src={DefaultAvatar} />}
+            position="bottom right" closeOnDocumentClick={true}
+            on="click">
+            <a>Welcome back, {this.state.firstName}</a>
+            <Login history={this.props.history} userLoggedIn={this.userLoggedIn} />
+          </Popup>   
+        ) : '';
         const cart = this.state.userLoggedIn ? (<a href='/cart'><i class="material-icons left">shopping_cart</i>Cart</a>) : '';
         const myCourse = this.state.userLoggedIn ? (<a href='/my-course'><i class="material-icons left">school</i>My Courses</a>) : '';
+        const newsletter = !this.state.userLoggedIn ? (<li className='right'><LeadForm/></li>) : '';
         return (
             <div className='navbar'>
             <nav>
                 <div className="nav-wrapper blue-grey">
-                    <Link to="/" className="brand-logo">Online Courses</Link>
+                    <Link to="/"><img className="brand-logo" src={logo} /></Link>
                     <a data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                     <ul id="nav-mobile" className="hide-on-med-and-down">
                         <CategoryNav />
-                        <li className='right'><Login history={this.props.history} userLoggedIn={this.userLoggedIn} /></li>
-                        <li className='right'>{userNavbar}</li>
+                        <li className='right'>{userLogIn}</li>
+                        <li style={{lineHeight: '0'}} className='right'>{userAvatar}</li>
                         <li className='right'>{myCourse}</li>
                         <li>
                             <form onSubmit={this.search}>
                                 <input className='search-nav grey lighten-4' placeholder='Search for Courses' type='search' id='search'></input>
                             </form>
                         </li>
-                        <li className='right'><LeadForm/></li>
+                        {newsletter}
                     </ul>
                     <ul>
                         <li className='right'>{cart}</li>
@@ -79,9 +96,10 @@ class Navbar extends Component {
 
             {/* Code for sidenav */}
             <ul class="sidenav" id="mobile-nav">
-                <li><a href="#" data-target="mobile-categories" class="sidenav-trigger"><i class="material-icons left">apps</i>Categories</a></li>
-                <li>{userNavbar}</li>
+                <li>{userLogIn}</li>
+                <li>{userAvatar}</li>
                 <li>{myCourse}</li>
+                <li><a href="#" data-target="mobile-categories" class="sidenav-trigger"><i class="material-icons left">apps</i>Categories</a></li>
                 <li>
                     <form onSubmit={this.search}>
                         <input className='search-nav grey lighten-4' placeholder='Search for Courses' type='search' id='search'></input>

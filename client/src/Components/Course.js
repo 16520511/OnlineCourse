@@ -20,7 +20,6 @@ export default class Courses extends Component {
     }
 
     async componentWillMount() {
-        let courseId = null;
         await axios.post('/api/course', {slug: this.props.location.pathname.split('/')[1]})
         .then(res => 
             {
@@ -91,7 +90,7 @@ export default class Courses extends Component {
         const course = this.state.course.map(course => {
             const lessons = this.state.lessons.map(lesson => {
                 const preview = lesson.preview ? 'Preview' : ''
-                return (<Link to={course.slug + 'lesson/' + lesson.slug} className="collection-item">{lesson.title}<i className="material-icons right">bookmark</i><span className='right red-text'>{preview}</span></Link>)
+                return (<Link to={course.slug + '/lesson/' + lesson.slug} className="collection-item">{lesson.title}<i className="material-icons right">bookmark</i><span className='right red-text'>{preview}</span></Link>)
             });
             let courseRating = 0;
             if (course.ratings.length !== 0)

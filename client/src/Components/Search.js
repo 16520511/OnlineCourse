@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import axios from 'axios'
 import CourseIndex from './CoursesIndex'
 
 export default class Search extends Component {
@@ -10,11 +9,20 @@ export default class Search extends Component {
         }
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
         const keyword = this.props.location.search.split('?query=')[1];
         await this.setState({
             keyword
         });
+    }
+
+    async componentDidUpdate(prevProps) {
+        if (prevProps != this.props) {
+            const keyword = this.props.location.search.split('?query=')[1];
+            await this.setState({
+                keyword
+            });
+        }
     }
 
     render() {

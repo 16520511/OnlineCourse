@@ -26,7 +26,9 @@ const LessonSchema = mongoose.Schema({
     },
     slug: {
         type: String
-    }
+    },
+    nextLessonSlug: String,
+    prevLessonSlug: String,
 });
 
 module.exports = mongoose.model('Lesson', LessonSchema);

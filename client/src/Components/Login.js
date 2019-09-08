@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import axios from 'axios'
 import {Modal} from 'react-materialize'
-import {Link} from 'react-router-dom'
 
 export default class Login extends Component {
     constructor(props) {
@@ -71,7 +70,7 @@ export default class Login extends Component {
             loggedIn: false,
             open: false
         });
-        window.location.reload();
+        this.props.history.push('/')
         this.props.userLoggedIn(false, '');
     }
 
@@ -150,7 +149,7 @@ export default class Login extends Component {
                 </div>
             ) : (
                 <div className=''>
-                    <h4 className='teal-text center'>Log In With Your Online Course Account</h4>
+                    <h5 className='teal-text center'>Log In With Your Online Course Account</h5>
                     <form onSubmit = {this.userLogIn}>
                         <div className="input-field">
                             <input id="username" type="text"/>
@@ -172,7 +171,7 @@ export default class Login extends Component {
         else {
             form = (
             <div>
-                <h4 className='teal-text center'>Register A New Online Course Account</h4>
+                <h5 className='teal-text center'>Register A New Online Course Account</h5>
                 <form onSubmit = {this.userRegister}>         
                     <div className="input-field">
                         <input id="username" type="text"/>
@@ -206,12 +205,12 @@ export default class Login extends Component {
         }
 
         const modal = this.props.mobile ? (
-            <Modal open={this.state.open}
+            <Modal open={this.state.open} className="authModal"
                 trigger={<button className='btn red lighten-1'>{loggedIn}</button>}>
                 {form}
             </Modal>
         ) : (
-            <Modal open={this.state.open}
+            <Modal open={this.state.open} className="authModal"
                 trigger={<a>{loggedIn}</a>}>
                 {form}
             </Modal>
