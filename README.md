@@ -1,7 +1,7 @@
 # OnlineCourse
-Fullstack E-Learning webapp
-Backend API NodeJS + Frontend ReactJS + Materialize CSS
-Developer: Huy Lê
+- Fullstack E-Learning webapp
+- Backend API NodeJS + Frontend ReactJS + Materialize CSS
+- Developer: Huy Lê
 
 <img src="https://github.com/16520511/OnlineCourse/blob/master/images/1.png"/>
 Home Page
