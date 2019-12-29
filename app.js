@@ -2,6 +2,7 @@ const express = require('express');
 const apiRouter = require('./routes/api');
 const bodyParser = require('body-parser');
 const path = require('path');
+const fileUpload = require('express-fileupload');
 
 const app = express();
 
@@ -11,6 +12,14 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('./client/src/static/images'));
 //Serve static assets
 app.use('/api', apiRouter);
+// app.use(fileUpload({
+//     limits: { 
+// 		fileSize: 1 * 1024 * 1024,
+// 		fields: 50,
+// 		files: 1,
+// 		parts: 51,
+// 	}
+// }));
 
 if(process.env.NODE_ENV === 'production')
 {

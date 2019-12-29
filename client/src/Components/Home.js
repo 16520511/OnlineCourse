@@ -15,17 +15,33 @@ class Home extends Component {
         return (
             <div className='homepage'>
                 <div className='home-banner'>
-                    <div className='banner-text white-text'>
-                        <h2>Learn from the best</h2>
-                        <h5>Study online anywhere, anytime with highly experienced experts from around the world.</h5>
-                        <form onSubmit={this.search}>
-                            <input className='banner-searchbar grey lighten-4' placeholder='What do you want to study?' type='search' id='search'></input>
-                        </form>
-                    </div>
-                    <img width='100%' className='banner-image' src='/website-banner.jpg' />
+                    <img className='banner-image' src='/banner.png' />
                 </div>
                 <div className='my-container'>
-                    <h3 className='teal-text'>Most Popular Courses</h3>
+                    <h4 style={{textAlign: 'center'}} className='teal-text'>Tại sao tôi nên chọn Online Course?</h4>
+                    <div className="row" style={{paddingLeft: '30px', paddingRight: '30px', textAlign: 'center'}}>
+                        <div className="col s3">
+                            <img src="/d1.png"/>
+                            <p style={{fontSize: '1.1rem'}}><b>Học trực tuyến</b></p>
+                            <p>Mọi lúc mọi nơi</p>
+                        </div>
+                        <div className="col s3">
+                            <img src="/d2.png"/>
+                            <p style={{fontSize: '1.1rem'}}><b>Hoàn tiền</b></p>
+                            <p>Nếu không hài lòng</p>
+                        </div>
+                        <div className="col s3">
+                            <img src="/d3.png"/>
+                            <p style={{fontSize: '1.1rem'}}><b>Thanh toán 1 lần</b></p>
+                            <p>Học mãi mãi</p>
+                        </div>
+                        <div className="col s3">
+                            <img style={{width: '128px'}} src="/d4.png"/>
+                            <p style={{fontSize: '1.1rem'}}><b>Tốc độ cao</b></p>
+                            <p>Không lo giật lag</p>
+                        </div>
+                    </div>
+                    <h4 className='teal-text'>Các khóa học phổ biến</h4>
                     <CoursesIndex path='/api/courses' />
                 </div>
             </div>

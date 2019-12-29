@@ -71,7 +71,7 @@ export default class CategoryNav extends Component {
             
             </div>
         ) : (
-            <li className='categories-nav'><a><i class="material-icons left">apps</i>Categories
+            <li className='categories-nav'><a className="teal-text"><i class="material-icons left">apps</i>Danh mục
                 <div className="parent-categories-dropdown white">
                     {parent}
                 </div></a>

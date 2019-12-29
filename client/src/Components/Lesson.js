@@ -80,10 +80,10 @@ export default class Courses extends Component {
         </div>) : <p>This lesson doesn't have a video.</p>;
 
         const nextButton = (this.state.lesson.nextLessonSlug != "" && this.state.lesson.nextLessonSlug != undefined) ? 
-        <div onClick={() => this.gotoLesson('next')} style={{float: 'right'}} className="btn red-btn">Next Lesson</div> : '';
+        <div onClick={() => this.gotoLesson('next')} style={{float: 'right'}} className="btn red-btn">Bài tiếp theo</div> : '';
 
         const prevButton = (this.state.lesson.prevLessonSlug != "" && this.state.lesson.prevLessonSlug != undefined) ? 
-        <div onClick={() => this.gotoLesson('prev')} className="btn red-btn">Previous Lesson</div> : '';
+        <div onClick={() => this.gotoLesson('prev')} className="btn red-btn">Bài trước</div> : '';
 
         const lessonContent = this.state.hasPerm == null ?
         (<div class="preloader-wrapper big active">
@@ -119,6 +119,7 @@ export default class Courses extends Component {
                 {lessonContent}
                 {nextButton}
                 {prevButton}
+                <br></br><br></br>
             </div>
         )
     }

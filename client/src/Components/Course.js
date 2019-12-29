@@ -25,10 +25,16 @@ export default class Courses extends Component {
             {
                 const username = localStorage.getItem('username');
                 const token = localStorage.getItem('token');
+                let data = res.data;
+
+                if (data[0].ratings[0] == null)
+                    data[0].ratings = data[0].ratings.slice(1)
+
+                console.log(data);
                 this.setState({
-                    course: res.data
+                    course: data
                 });
-                axios.post('/api/courselessons', {courseId: res.data[0]._id})
+                axios.post('/api/get-course-lessons', {courseId: res.data[0]._id})
                 .then(res2 => {
                     this.setState({
                         lessons: res2.data
@@ -66,15 +72,15 @@ export default class Courses extends Component {
                 'Authorization': 'Bearer ' + token
             }}).then(res => {
                 if (res.data.message === 'unauthorized')
-                    toast.error("You don't have permission to do this. Please log in", {
+                    toast.error("Xin hãy đăng nhập.", {
                         position: toast.POSITION.TOP_CENTER
                     });
                 else if (res.data.message === 'You have already purchased this course')
-                    toast.error(res.data.message, {
+                    toast.error('Bạn đã sở hữu khóa học này.', {
                         position: toast.POSITION.TOP_CENTER
                     });
                 else
-                    toast.info(res.data.message, {
+                    toast.info('Đã thêm vào giỏ hàng', {
                         position: toast.POSITION.TOP_CENTER
                     });
             })
@@ -84,6 +90,26 @@ export default class Courses extends Component {
         this.setState({
             instructorExpand: !this.state.instructorExpand
         });
+    }
+
+    userRating = (rating, name) => {
+        const username = localStorage.getItem('username');
+        const token = localStorage.getItem('token');
+        console.log(rating)
+        axios.post('/api/user-rating', {rating: rating, courseId: this.state.course[0]._id}, 
+        {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }}).then(res =>{
+            let data = res.data;
+            if (res.data.message !== 'unauthorized')
+            {
+                let course = [...this.state.course];
+                course[0].ratings.push(rating);
+                this.setState({course});
+            }
+        }).catch(err => console.log(err))
     }
 
     render() {
@@ -100,9 +126,8 @@ export default class Courses extends Component {
                 courseRating /= course.ratings.length;
             }
 
-            const ctaButtons = !this.state.userRolledIn ? (<span><button className='red waves-effect waves-light btn-large course-enroll-btn'>Enroll in this course</button>
-            <button onClick={this.addToCart} className='teal waves-effect waves-light btn-large add-to-cart-btn'>Add To Cart</button></span>) :
-            (<button className='teal waves-effect waves-light btn-large add-to-cart-btn disabled'>You have purchased this course.</button>);
+            const ctaButtons = !this.state.userRolledIn ? (<button onClick={this.addToCart} className='teal waves-effect waves-light btn-large add-to-cart-btn'>Thêm vào giỏ hàng</button>) :
+            (<button className='teal waves-effect waves-light btn-large add-to-cart-btn disabled'>Bạn đã sở hữu khóa học này.</button>);
             
             const hiddenInstructorExpand = this.state.instructorExpand ? course.instructor.aboutMe.slice(297) : '...';
 
@@ -111,8 +136,8 @@ export default class Courses extends Component {
             )
 
             const readMoreInstructor = course.instructor.aboutMe.length < 300 ? '' : (
-                <p onClick={this.instructorExpand} className='read-more-instructor green-text lighten-2'>{this.state.instructorExpand? 'READ LESS' : 'READ MORE'}</p>
-            ) 
+                <p onClick={this.instructorExpand} className='read-more-instructor green-text lighten-2'>{this.state.instructorExpand? 'THU LẠI' : 'MỞ RỘNG'}</p>
+            );
 
             return (
                 <div className='course'>
@@ -120,7 +145,7 @@ export default class Courses extends Component {
                         <div className='course-info white-text'>
                             <p className='course-title'>{course.title}</p>
                             <p className='course-short-description'>{course.shortDescription}</p>
-                            <p className='course-instructor'>Created by <span className='red-text'>{course.instructor.firstName + ' ' + course.instructor.lastName}</span> <p>Last updated {course.dateCreated.split('T')[0]}</p> </p>
+                            <p className='course-instructor'>Giảng viên: <span className='red-text'>{course.instructor.firstName + ' ' + course.instructor.lastName}</span> <p>Cập nhật lần cuối {course.dateCreated.split('T')[0]}</p> </p>
                         </div>
                         <div className='course-picture'>
                             <img src={'/' + course.image} />
@@ -133,38 +158,36 @@ export default class Courses extends Component {
                                 rating={courseRating}
                                 starRatedColor="rgb(255, 187, 0)"
                                 numberOfStars={5}
+                                changeRating={this.userRating}
                                 name='rating'
                                 starDimension="23px"
                                 starSpacing="2px"
                             />
-                            <span className='course-number-of-ratings'> ({course.ratings.length} ratings)</span>
+                            <span className='course-number-of-ratings'> ({course.ratings[0] == null ? 0 : course.ratings.length} đánh giá)</span>
                             {ctaButtons}
                             <div className='course-long-description'>
-                                <h4>Description</h4>
+                                <h4>Chi tiết khóa học</h4>
                                 <div dangerouslySetInnerHTML={{__html: course.longDescription}} />
                             </div>
                             <div className="course-instructor-info">
-                                <h4 className="header">About the Instructor</h4>
+                                <h4 className="header">Thông tin giảng viên</h4>
                                 <div className="card horizontal">
                                 <div className="card-image">
                                     <img src={'/' + course.instructor.avatar} />
                                 </div>
                                 <div className="card-stacked">
                                     <div className="card-content">
-                                        <h6 className='course-instructor-info-header blue-text'>{course.instructor.firstName + ' ' + course.instructor.lastName}</h6>
+                                        <Link to={'/user/' + course.instructor.username} className='course-instructor-info-header blue-text'>{course.instructor.firstName + ' ' + course.instructor.lastName}</Link>
                                         {instructorExpand}
                                         {readMoreInstructor}
-                                    </div>
-                                    <div className="card-action">
-                                    <a href="#">Instructor's profile</a>
                                     </div>
                                 </div>
                                 </div>
                             </div>
                         </div>
                         <div className='course-cta'>
-                            <ul className="collection">
-                                <li className="collection-header center"><h5>Lessons of this course</h5></li>
+                            <ul className="collection white">
+                                <li className="collection-header center"><h5>Bài học</h5></li>
                                 {lessons}
                             </ul>
                         </div>

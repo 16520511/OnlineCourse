@@ -28,7 +28,7 @@ export default class Search extends Component {
     render() {
         return (
             <div className='my-container'>
-                <h4>Search results for: {this.state.keyword}</h4>
+                <h4>Kết quả tìm kiếm cho: {this.state.keyword}</h4>
                 <CourseIndex keyword={this.state.keyword} />
             </div>
         )

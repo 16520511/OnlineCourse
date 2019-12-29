@@ -6,7 +6,7 @@ export default class Search extends Component {
     render() {
         return (
             <div className='my-container'>
-                <h3 className='teal-text'>My Courses</h3>
+                <h3 className='teal-text'>Các khóa học của tôi</h3>
                 <CourseIndex hideCTA={true} myPost={true} />
             </div>
         )

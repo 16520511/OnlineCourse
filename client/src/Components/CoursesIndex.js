@@ -19,7 +19,7 @@ export default class CoursesIndex extends Component {
         if (myPost === true) {
             const token = localStorage.getItem('token');
             const username = localStorage.getItem('username');
-            await axios.post('/api/my-course', {username: username}, {
+            await axios.post('/api/my-courses', {username: username}, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + token
@@ -27,6 +27,10 @@ export default class CoursesIndex extends Component {
             }).then(res => {
                 const courses = res.data.map(course => {
                     course.ctaDisplay = 'none';
+
+                    if(course.ratings[0] == null)
+                        course.ratings = course.ratings.slice(1);
+
                     return course;
                 });
                 if (res.data.message !== 'unauthorized')
@@ -41,7 +45,11 @@ export default class CoursesIndex extends Component {
         {
             await axios.get(path)
             .then(res => {
-                const courses = res.data.map(course => {
+                let data = res.data.slice(0, 10)
+                const courses = data.map(course => {
+                    if(course.ratings[0] == null)
+                        course.ratings = course.ratings.slice(1);
+
                     course.ctaDisplay = 'none';
                     return course;
                 });
@@ -56,6 +64,9 @@ export default class CoursesIndex extends Component {
             axios.post('/api/search', {keyword})
             .then(res => {
                 const courses = res.data.map(course => {
+                    if(course.ratings[0] == null)
+                        course.ratings = course.ratings.slice(1);
+
                     course.ctaDisplay = 'none';
                     return course;
                 });
@@ -69,7 +80,10 @@ export default class CoursesIndex extends Component {
             await axios.post(path, {path: body})
             .then(res => {
                 const courses = res.data.map(course => {
-                    course.ctaDisplay = 'none';
+                    if(course.ratings[0] == null)
+                        course.ratings = course.ratings.slice(1);
+                    
+                        course.ctaDisplay = 'none';
                     return course;
                 });
                 this.setState({
@@ -137,15 +151,15 @@ export default class CoursesIndex extends Component {
         }})
         .then(res => {
             if (res.data.message === 'unauthorized')
-                toast.error("You don't have permission to do this. Please log in", {
-                    position: toast.POSITION.TOP_CENTER
-                });
+            toast.error("Xin hãy đăng nhập.", {
+                position: toast.POSITION.TOP_CENTER
+            });
             else if (res.data.message === 'You have already purchased this course')
-                toast.error(res.data.message, {
+                toast.error('Bạn đã sở hữu khóa học này.', {
                     position: toast.POSITION.TOP_CENTER
                 });
             else
-                toast.info(res.data.message, {
+                toast.info('Đã thêm vào giỏ hàng', {
                     position: toast.POSITION.TOP_CENTER
                 });
         });
@@ -162,7 +176,7 @@ export default class CoursesIndex extends Component {
                 courseRating /= course.ratings.length;
             }
             const CTAbutton = this.props.hideCTA === true ? '' : (
-                <button onClick={(e) => {this.CTAClick(e, course._id)}} style={{display: `${course.ctaDisplay}`}} className='btn course-index-cta'>Add To Cart</button>
+                <button onClick={(e) => {this.CTAClick(e, course._id)}} style={{display: `${course.ctaDisplay}`}} className='btn course-index-cta'>Thêm vào giỏ hàng</button>
             )
             const title = course.title.length > 45 ? (course.title.slice(0, 47) + '...') : course.title;
             return (
@@ -184,7 +198,7 @@ export default class CoursesIndex extends Component {
                                 starDimension="18px"
                                 starSpacing="1px"
                             />
-                            <span className='course-number-of-ratings'> ({course.ratings.length} ratings)</span>
+                            <span className='course-number-of-ratings'> ({course.ratings[0] == null ? 0 : course.ratings.length})</span>
                         {CTAbutton}
                     </div>
                     <div className='card-footer'></div></a>

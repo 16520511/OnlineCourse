@@ -10,7 +10,7 @@ export default class Cart extends Component {
             cart: {
                 courses: [],
                 user: {}
-            }
+            },
         }
     }
 
@@ -67,31 +67,31 @@ export default class Cart extends Component {
             totalPrice += item.price;
             return (
                 <div className='cart-item'>
-                    <a className="close-btn" onClick={() => {this.removeItem(item._id)}}>Remove</a>
+                    <a className="close-btn" onClick={() => {this.removeItem(item._id)}}>Xóa</a>
                     <div className='cart-item-img'>
                         <img width='100%' src={'/' + item.image} alt={item.title} />
                     </div>
                     <div className='cart-item-info'>
                         <h5><Link to={item.slug}>{item.title}</Link></h5>
-                        <p>Instructor: {item.instructor.firstName + ' ' + item.instructor.lastName}</p>
+                        <p>Giảng viên: {item.instructor.firstName + ' ' + item.instructor.lastName}</p>
                     </div>
                 </div>)
         });
-        let totalItems = itemsInCart.length === 0 ? (<h5>You don't have any course in cart.</h5>) : 
-        (itemsInCart.length === 1 ? (<h5>You have 1 course in cart</h5>) : (<h5>You have {itemsInCart.length} courses in cart</h5>));
+        let totalItems = itemsInCart.length === 0 ? (<h5>Bạn không có sản phẩm nào trong giỏ hàng.</h5>) : 
+        (itemsInCart.length === 1 ? (<h5>Bạn có 1 sản phẩm trong giỏ hàng</h5>) : (<h5>Bạn có {itemsInCart.length} sản phẩm trong giỏ hàng</h5>));
 
         let paypalCheckout = itemsInCart.length === 0 ? '' : 
             (<div className='right checkout'>
-                <h5>Total Price: ${totalPrice}</h5>
+                <h5>Tổng giá tiền: ${totalPrice}</h5>
                 <Paypal price={totalPrice} checkoutSuccessful={this.checkoutSuccessful}/>
             </div>)
 
-        let removeAll = itemsInCart.length === 0 ? '' : <a className='remove-all-cart' onClick={() => {this.removeItem('', true)}}>Remove All</a>;
+        let removeAll = itemsInCart.length === 0 ? '' : <a className='remove-all-cart' onClick={() => {this.removeItem('', true)}}>Xóa tất cả</a>;
         return(
             <div>
                 <div className='cart'>
                     <div className="">
-                    <h4 className='teal-text'><i class="material-icons small left">shopping_cart</i>Shopping Cart</h4>
+                    <h4 className='teal-text'><i class="material-icons small left">shopping_cart</i>Giỏ hàng</h4>
                     <div className='cart-items'>
                         {totalItems}
                         {removeAll}

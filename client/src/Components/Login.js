@@ -81,13 +81,14 @@ export default class Login extends Component {
         let password = e.target.children[1].children[0].value;
         let firstName = e.target.children[2].children[0].value;
         let lastName = e.target.children[3].children[0].value;
-        let isInstructor = e.target.children[4].children[0].children[0].checked ? 'true' : 'false';
-        const user = {username, password, firstName, lastName, isInstructor};
+        let aboutMe = e.target.children[4].children[0].value;
+        let isInstructor = e.target.children[5].children[0].children[0].checked ? 'true' : 'false';
+        const user = {username, password, firstName, lastName, aboutMe, isInstructor};
         axios.post("/api/register", user)
         .then(res => {
             if (res.data.message === 'Register successfully.' || res.data.message === 'Instructor pending.')
             {
-                let err = res.data.message === 'Register successfully.' ? 'You have register successfully, log in with your new account now.'
+                let err = res.data.message === 'Register successfully.' ? 'Bạn đã đăng ký thành công. Đăng nhập ngay'
                 : 'You have registered to be an instructor. Please wait for admin approval.';
                 //Register successfully, redirect to login
                 this.setState({
@@ -138,32 +139,32 @@ export default class Login extends Component {
             return (<h6 className='red-text center'>{err}</h6>)
         }));
 
-        let loggedIn = this.state.loggedIn ? ('Log Out') : ('Log In');
+        let loggedIn = this.state.loggedIn ? ('Đăng xuất') : ('Đăng nhập');
         let form = '';
         //If user is logged in, show log out form, otherwise show log in
         if (this.state.register === false) {
             form = this.state.loggedIn ? (
                 <div>
-                    <p className='teal-text'>It's sad to see you leave, {localStorage.getItem('username')}.</p>
-                    <button onClick = {this.userLogOut} className='btn red lighten-1'>Click here to log out</button>
+                    <p className='teal-text'>Bạn muốn đăng xuất, {localStorage.getItem('username')}?</p>
+                    <button onClick = {this.userLogOut} className='btn red lighten-1'>Nhấn vào đây để đăng xuất</button>
                 </div>
             ) : (
                 <div className=''>
-                    <h5 className='teal-text center'>Log In With Your Online Course Account</h5>
+                    <h5 className='teal-text center'>Đăng nhập</h5>
                     <form onSubmit = {this.userLogIn}>
                         <div className="input-field">
                             <input id="username" type="text"/>
-                            <label htmlFor="username">Username</label>
+                            <label htmlFor="username">Tên đăng nhập</label>
                         </div>
                         <div className="input-field">
                             <input id="password" type="password"/>
-                            <label htmlFor="password">Password</label>
+                            <label htmlFor="password">Mật khẩu</label>
                         </div>
-                        <button type='submit' className='btn blue-grey'>Log In</button>
+                        <button type='submit' className='btn blue-grey'>Đăng nhập</button>
                     </form>
                     {errMessage}
                     <div className='center'>
-                        <h6><a className='teal-text text-darken-2' onClick={this.registerForm} href='#register'>Don't have an account? Click here to register</a></h6>
+                        <h6><a className='teal-text text-darken-2' onClick={this.registerForm} href='#register'>Chưa có tài khoản? Nhấn vào đây để đăng ký.</a></h6>
                     </div>
                 </div>
             );
@@ -171,35 +172,39 @@ export default class Login extends Component {
         else {
             form = (
             <div>
-                <h5 className='teal-text center'>Register A New Online Course Account</h5>
+                <h5 className='teal-text center'>Đăng ký tài khoản</h5>
                 <form onSubmit = {this.userRegister}>         
                     <div className="input-field">
                         <input id="username" type="text"/>
-                        <label htmlFor="username">Username</label>
+                        <label htmlFor="username">Tên đăng nhập</label>
                     </div>
                     <div className="input-field">
                         <input id="password" type="password"/>
-                        <label htmlFor="password">Password</label>
+                        <label htmlFor="password">Mật khẩu</label>
                     </div>
                     <div className="input-field">
                         <input id="last_name" type="text" />
-                        <label htmlFor="last_name">Last Name</label>
+                        <label htmlFor="last_name">Họ</label>
                     </div>
                     <div className="input-field">
                         <input id="first_name" type="text" />
-                        <label htmlFor="first_name">First Name</label>
+                        <label htmlFor="first_name">Tên</label>
+                    </div>
+                    <div className="input-field">
+                        <textarea required id="about_me" class="materialize-textarea"></textarea>
+                        <label htmlFor="about_me">Giới thiệu bản thân</label>
                     </div>
                     <p>
                         <label>
                             <input name='is_instructor' value='is_instructor' type="checkbox" className="filled-in" />
-                            <span>I want to be an instructor (You are student by default).</span>
+                            <span>Tôi muốn trở thành giảng viên.</span>
                         </label>
                     </p>
-                    <input type='submit' value='Register' className='btn blue-grey' />
+                    <input type='submit' value='Đăng ký' className='btn blue-grey' />
                 </form>
                 {errMessage}
                 <div className='center'>
-                    <h6><a className='teal-text text-darken-2' onClick={this.loginForm} href='#login'>Already have one? Click here to login.</a></h6>
+                    <h6><a className='teal-text text-darken-2' onClick={this.loginForm} href='#login'>Đã có tài khoản? Nhấn vào đây để đăng nhập.   </a></h6>
                 </div>
             </div>);
         }

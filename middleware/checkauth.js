@@ -9,6 +9,7 @@ function checkAuth(req, res, next) {
         else {
             req.username = decoded.username;
             req.firstName = decoded.firstName;
+            req.role = decoded.role;
             next();
         }
     });

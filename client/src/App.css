@@ -22,7 +22,7 @@ main {
 }
 
 .brand-logo {
-    width: 20rem !important;
+    width: 18rem !important;
     cursor: pointer;
 }
 
@@ -44,17 +44,16 @@ main {
     position: relative;
 }
 
-    .home-banner img {
-        -webkit-transform: scaleX(-1);
-        transform: scaleX(-1);
+    .home-banner .banner-image {
+        width: 100%;
     }
     .home-banner .banner-text {
-        font-family: Georgia, 'Times New Roman', Times, serif;
+        font-family: Tahoma;
         position: absolute;
         z-index: 3;
-        top: 15%;
+        BOTTOM: 25%;
         left: 5%;
-        width: 35%;
+        width: 40%;
     }
 
 .banner-searchbar {
@@ -255,6 +254,7 @@ main {
 .course-instructor-info-header {
     margin-top: 0;
     font-weight: 600;
+    font-size: 1.1rem;
 }
 
 .lesson-content li {
@@ -398,10 +398,14 @@ main {
 
 .search-nav {
     padding: 0 10px !important;
-    width: 150% !important;
-    border-bottom: none!important;
-    box-shadow: none!important;
+    width: 130% !important;
+    font-weight: bold;
 }
+
+    .search-nav::placeholder {
+        color: teal !important;
+
+    }
 
     .search-nav:focus {
         background-color: white !important;
@@ -425,6 +429,11 @@ main {
     border-radius: 50%;
     /* line-height: 0 !important; */
     cursor: pointer;
+}
+
+.nav-wrapper li a, .nav-wrapper li div a {
+    font-weight: bold !important;
+    color: teal !important;
 }
 
 .popup-overlay {
@@ -568,4 +577,8 @@ main {
         font-size: 14px;
         font-weight: 500;
     }
+}
+
+.collapsible-body.instructor-course-item {
+    padding: 0 !important;
 }

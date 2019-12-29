@@ -34,6 +34,12 @@ const CourseSchema = mongoose.Schema({
             max: 5
         }
     ],
+    ratedUsers: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+        }
+    ],
     dateCreated: {
         type: Date,
         default: new Date()
